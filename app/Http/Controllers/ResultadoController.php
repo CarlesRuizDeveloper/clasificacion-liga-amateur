@@ -3,63 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resultado;
+use App\Services\ResultadoService;
 use Illuminate\Http\Request;
 
 class ResultadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $resultadoService;
+
+    public function __construct(ResultadoService $resultadoService)
+    {
+        $this->resultadoService = $resultadoService;
+    }
+
     public function index()
     {
-        //
+        $resultados = $this->resultadoService->listarResultados();
+        return response()->json($resultados);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'equipo_local_id' => 'required|exists:equipos,id',
+            'equipo_visitante_id' => 'required|exists:equipos,id',
+            'goles_local' => 'nullable|integer|min:0',
+            'goles_visitante' => 'nullable|integer|min:0',
+            'fecha' => 'required|date',
+            'hora' => 'required|date_format:H:i'
+        ]);
+
+        $resultado = $this->resultadoService->crearResultado($request);
+        return response()->json($resultado, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Resultado $resultado)
     {
-        //
+        return response()->json($this->resultadoService->verResultado($resultado));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Resultado $resultado)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Resultado $resultado)
     {
-        //
+        $request->validate([
+            'equipo_local_id' => 'required|exists:equipos,id',
+            'equipo_visitante_id' => 'required|exists:equipos,id',
+            'goles_local' => 'nullable|integer|min:0',
+            'goles_visitante' => 'nullable|integer|min:0',
+            'fecha' => 'required|date',
+            'hora' => 'required|date_format:H:i'
+        ]);
+
+        $resultado = $this->resultadoService->actualizarResultado($request, $resultado);
+        return response()->json($resultado);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Resultado $resultado)
     {
-        //
+        $this->resultadoService->eliminarResultado($resultado);
+        return response()->json(null, 204);
     }
 }
