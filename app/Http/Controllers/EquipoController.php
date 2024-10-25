@@ -3,63 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipo;
+use App\Services\EquipoService;
 use Illuminate\Http\Request;
 
 class EquipoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $equipoService;
+
+    public function __construct(EquipoService $equipoService)
+    {
+        $this->equipoService = $equipoService;
+    }
+
     public function index()
     {
-        //
+        $equipos = $this->equipoService->listarEquipos();
+        return response()->json($equipos);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|unique:equipos',
+            'escudo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $equipo = $this->equipoService->crearEquipo($request);
+        return response()->json($equipo, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Equipo $equipo)
     {
-        //
+        return response()->json($this->equipoService->verEquipo($equipo));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Equipo $equipo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Equipo $equipo)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|unique:equipos,nombre,' . $equipo->id,
+            'escudo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $equipo = $this->equipoService->actualizarEquipo($request, $equipo);
+        return response()->json($equipo);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Equipo $equipo)
     {
-        //
+        $this->equipoService->eliminarEquipo($equipo);
+        return response()->json(null, 204);
     }
 }
