@@ -39,7 +39,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('app'),
+                    base_path('app/Annotations/OpenApi'),
                 ],
             ],
         ],
@@ -170,6 +170,12 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'sanctum' => [
+                    'type' => 'apiKey',
+                    'description' => 'Enter token in format (Bearer <token>)',
+                    'name' => 'Authorization',
+                    'in' => 'header',
+                ],
                 /*
                  * Examples of Security schemes
                  */

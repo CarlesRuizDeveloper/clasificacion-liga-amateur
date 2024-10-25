@@ -1,0 +1,495 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Clasificación Liga Amateur API",
+        "description": "Documentación de la API para la clasificación de una liga de fútbol amateur",
+        "contact": {
+            "email": "soporte@tudominio.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor principal"
+        }
+    ],
+    "paths": {
+        "/equipos": {
+            "get": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Listar todos los equipos",
+                "operationId": "listarEquipos",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Equipo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Crear un nuevo equipo",
+                "operationId": "crearEquipo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "CE ÀGORA 'A'"
+                                    },
+                                    "escudo": {
+                                        "type": "string",
+                                        "example": "url_del_escudo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Equipo creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Equipo"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/resultados": {
+            "get": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Listar todos los resultados",
+                "operationId": "listarResultados",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Resultado"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Crear un nuevo resultado",
+                "operationId": "crearResultado",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "equipo_local_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "equipo_visitante_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "goles_local": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "goles_visitante": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-30"
+                                    },
+                                    "hora": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:30"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resultado creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resultado"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/equipos/{id}": {
+            "get": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Obtener un equipo específico",
+                "operationId": "obtenerEquipo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Equipo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipo no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Actualizar un equipo existente",
+                "operationId": "actualizarEquipo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "CE ÀGORA 'A'"
+                                    },
+                                    "escudo": {
+                                        "type": "string",
+                                        "example": "url_del_escudo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Equipo actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Equipo"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Equipo no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Equipos"
+                ],
+                "summary": "Eliminar un equipo existente",
+                "operationId": "eliminarEquipo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del equipo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Equipo eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Equipo no encontrado"
+                    }
+                }
+            }
+        },
+        "/resultados/{id}": {
+            "get": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Obtener un resultado específico",
+                "operationId": "obtenerResultado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del resultado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resultado"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resultado no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Actualizar un resultado existente",
+                "operationId": "actualizarResultado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del resultado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "equipo_local_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "equipo_visitante_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "goles_local": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "goles_visitante": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-10-30"
+                                    },
+                                    "hora": {
+                                        "type": "string",
+                                        "format": "time",
+                                        "example": "15:30"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resultado actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Resultado"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resultado no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Eliminar un resultado existente",
+                "operationId": "eliminarResultado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del resultado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resultado eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Resultado no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Equipo": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "type": "string",
+                        "example": "CE ÀGORA 'A'"
+                    },
+                    "escudo": {
+                        "type": "string",
+                        "example": "url_del_escudo"
+                    }
+                },
+                "type": "object"
+            },
+            "Resultado": {
+                "properties": {
+                    "equipo_local_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "equipo_visitante_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "goles_local": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "goles_visitante": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "fecha": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-10-30"
+                    },
+                    "hora": {
+                        "type": "string",
+                        "format": "time",
+                        "example": "15:30"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Equipos",
+            "description": "Equipos"
+        },
+        {
+            "name": "Resultados",
+            "description": "Resultados"
+        }
+    ]
+}

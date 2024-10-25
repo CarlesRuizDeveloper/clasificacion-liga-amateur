@@ -18,7 +18,7 @@ use App\Http\Controllers\ResultadoController;
 
 
 Route::get('equipos', [EquipoController::class, 'index']); 
-Route::get('equipos/{equipo}', [EquipoController::class, 'show']); 
+Route::get('equipos/{id}', [EquipoController::class, 'show']); 
 Route::get('resultados', [ResultadoController::class, 'index']); 
 Route::get('resultados/{resultado}', [ResultadoController::class, 'show']); 
 
