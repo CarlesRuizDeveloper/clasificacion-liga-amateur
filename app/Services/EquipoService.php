@@ -25,9 +25,9 @@ class EquipoService
 
     public function verEquipo(Equipo $equipo)
     {
-        return $equipo;
+        return $equipo; 
     }
-
+    
     public function actualizarEquipo(Request $request, Equipo $equipo)
     {
         if ($request->hasFile('escudo')) {
@@ -42,10 +42,13 @@ class EquipoService
     }
 
     public function eliminarEquipo(Equipo $equipo)
-    {
-        Storage::disk('public')->delete($equipo->escudo);
+    {  
+        if ($equipo->escudo) {
+            Storage::disk('public')->delete($equipo->escudo);
+        }
         $equipo->delete();
-
         return true;
     }
+    
+    
 }

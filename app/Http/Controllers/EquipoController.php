@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use App\Services\EquipoService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class EquipoController extends Controller
 {
@@ -36,6 +38,7 @@ class EquipoController extends Controller
     {
         return response()->json($this->equipoService->verEquipo($equipo));
     }
+    
 
     public function update(Request $request, Equipo $equipo)
     {
@@ -50,7 +53,13 @@ class EquipoController extends Controller
 
     public function destroy(Equipo $equipo)
     {
-        $this->equipoService->eliminarEquipo($equipo);
-        return response()->json(null, 204);
+        try {
+            $this->equipoService->eliminarEquipo($equipo);
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo eliminar el equipo: ' . $e->getMessage()], 500);
+        }
     }
+    
+    
 }
