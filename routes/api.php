@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\ResultadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('equipos', [EquipoController::class, 'index']); 
+Route::get('equipos/{equipo}', [EquipoController::class, 'show']); 
+Route::get('resultados', [ResultadoController::class, 'index']); 
+Route::get('resultados/{resultado}', [ResultadoController::class, 'show']); 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('equipos', [EquipoController::class, 'store']); 
+    Route::put('equipos/{equipo}', [EquipoController::class, 'update']); 
+    Route::delete('equipos/{equipo}', [EquipoController::class, 'destroy']); 
+    Route::post('resultados', [ResultadoController::class, 'store']); 
+    Route::put('resultados/{resultado}', [ResultadoController::class, 'update']); 
+    Route::delete('resultados/{resultado}', [ResultadoController::class, 'destroy']); 
+});
+
