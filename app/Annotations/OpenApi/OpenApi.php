@@ -32,15 +32,14 @@ namespace App\Annotations\OpenApi;
  * )
  * @OA\Schema(
  *     schema="Resultado",
+ *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="equipo_local_id", type="integer", example=1),
  *     @OA\Property(property="equipo_visitante_id", type="integer", example=2),
  *     @OA\Property(property="goles_local", type="integer", example=3),
- *     @OA\Property(property="goles_visitante", type="integer", example=1),
- *     @OA\Property(property="fecha", type="string", format="date", example="2024-10-30"),
- *     @OA\Property(property="hora", type="string", format="time", example="15:30")
+ *     @OA\Property(property="goles_visitante", type="integer", example=4),
+ *     @OA\Property(property="fecha", type="string", format="date", example="2024-10-19"),
+ *     @OA\Property(property="hora", type="string", format="time", example="10:30")
  * )
  */
 class OpenApi
-{
-    
-}
+{ }

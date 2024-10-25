@@ -9,7 +9,7 @@ class EquipoAnnotation
 {
     /**
      * @OA\Get(
-     *     path="/equipos",
+     *     path="/api/equipos",
      *     operationId="listarEquipos",
      *     tags={"Equipos"},
      *     summary="Listar todos los equipos",
@@ -28,7 +28,7 @@ class EquipoAnnotation
 
     /**
      * @OA\Post(
-     *     path="/equipos",
+     *     path="/api/equipos",
      *     operationId="crearEquipo",
      *     tags={"Equipos"},
      *     summary="Crear un nuevo equipo",
@@ -54,7 +54,7 @@ class EquipoAnnotation
 
     /**
      * @OA\Get(
-     *     path="/equipos/{id}",
+     *     path="/api/equipos/{id}",
      *     operationId="obtenerEquipo",
      *     tags={"Equipos"},
      *     summary="Obtener un equipo específico",
@@ -80,7 +80,7 @@ class EquipoAnnotation
 
     /**
      * @OA\Put(
-     *     path="/equipos/{id}",
+     *     path="/api/equipos/{id}",
      *     operationId="actualizarEquipo",
      *     tags={"Equipos"},
      *     summary="Actualizar un equipo existente",
@@ -113,7 +113,7 @@ class EquipoAnnotation
 
     /**
      * @OA\Delete(
-     *     path="/equipos/{id}",
+     *     path="/api/equipos/{id}",
      *     operationId="eliminarEquipo",
      *     tags={"Equipos"},
      *     summary="Eliminar un equipo existente",

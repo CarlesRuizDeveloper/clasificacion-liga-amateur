@@ -15,7 +15,37 @@
         }
     ],
     "paths": {
-        "/equipos": {
+        "/equipos": {},
+        "/api/resultados": {
+            "get": {
+                "tags": [
+                    "Resultados"
+                ],
+                "summary": "Listar todos los resultados",
+                "operationId": "listarResultados",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Resultado"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/equipos": {
             "get": {
                 "tags": [
                     "Equipos"
@@ -86,96 +116,7 @@
                 }
             }
         },
-        "/resultados": {
-            "get": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Listar todos los resultados",
-                "operationId": "listarResultados",
-                "responses": {
-                    "200": {
-                        "description": "Operación exitosa",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Resultado"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Crear un nuevo resultado",
-                "operationId": "crearResultado",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "equipo_local_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "equipo_visitante_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "goles_local": {
-                                        "type": "integer",
-                                        "example": 3
-                                    },
-                                    "goles_visitante": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "fecha": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-10-30"
-                                    },
-                                    "hora": {
-                                        "type": "string",
-                                        "format": "time",
-                                        "example": "15:30"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Resultado creado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Resultado"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Error de validación"
-                    }
-                }
-            }
-        },
-        "/equipos/{id}": {
+        "/api/equipos/{id}": {
             "get": {
                 "tags": [
                     "Equipos"
@@ -288,138 +229,6 @@
                     }
                 }
             }
-        },
-        "/resultados/{id}": {
-            "get": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Obtener un resultado específico",
-                "operationId": "obtenerResultado",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID del resultado",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Operación exitosa",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Resultado"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resultado no encontrado"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Actualizar un resultado existente",
-                "operationId": "actualizarResultado",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID del resultado",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "equipo_local_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "equipo_visitante_id": {
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "goles_local": {
-                                        "type": "integer",
-                                        "example": 3
-                                    },
-                                    "goles_visitante": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "fecha": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024-10-30"
-                                    },
-                                    "hora": {
-                                        "type": "string",
-                                        "format": "time",
-                                        "example": "15:30"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Resultado actualizado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Resultado"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Resultado no encontrado"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Eliminar un resultado existente",
-                "operationId": "eliminarResultado",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID del resultado",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Resultado eliminado exitosamente"
-                    },
-                    "404": {
-                        "description": "Resultado no encontrado"
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -443,6 +252,10 @@
             },
             "Resultado": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
                     "equipo_local_id": {
                         "type": "integer",
                         "example": 1
@@ -457,17 +270,17 @@
                     },
                     "goles_visitante": {
                         "type": "integer",
-                        "example": 1
+                        "example": 4
                     },
                     "fecha": {
                         "type": "string",
                         "format": "date",
-                        "example": "2024-10-30"
+                        "example": "2024-10-19"
                     },
                     "hora": {
                         "type": "string",
                         "format": "time",
-                        "example": "15:30"
+                        "example": "10:30"
                     }
                 },
                 "type": "object"
