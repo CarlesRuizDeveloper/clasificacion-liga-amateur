@@ -20,6 +20,9 @@ class EquipoController extends Controller
     public function index()
     {
         $equipos = $this->equipoService->listarEquipos();
+        foreach ($equipos as $equipo) {
+            $equipo->escudo_url = $equipo->escudo_url; 
+        }
         return response()->json($equipos);
     }
 
@@ -36,7 +39,8 @@ class EquipoController extends Controller
 
     public function show(Equipo $equipo)
     {
-        return response()->json($this->equipoService->verEquipo($equipo));
+        $equipo->escudo_url = $equipo->escudo_url; 
+        return response()->json($equipo);
     }
     
 
