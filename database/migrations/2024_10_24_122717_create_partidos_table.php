@@ -16,8 +16,11 @@ return new class extends Migration
             $table->foreignId('equipo_local_id')->constrained('equipos')->onDelete('cascade');
             $table->foreignId('equipo_visitante_id')->constrained('equipos')->onDelete('cascade');
             $table->integer('jornada'); 
+            $table->integer('goles_local')->nullable(); 
+            $table->integer('goles_visitante')->nullable();
             $table->date('fecha');
-            $table->time('hora');
+            $table->time('hora')->nullable();
+            $table->string('estado')->default('Pendiente');
             $table->timestamps();
         });
     }

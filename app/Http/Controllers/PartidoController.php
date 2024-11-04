@@ -15,10 +15,20 @@ class PartidoController extends Controller
         $this->partidoService = $partidoService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $partidos = $this->partidoService->listarPartidos();
-        return response()->json($partidos);
+        try {
+            $jornada = $request->query('jornada');
+            if ($jornada) {
+                $partidos = $this->partidoService->listarPartidosPorJornada($jornada);
+            } else {
+                $partidos = $this->partidoService->listarPartidos();
+            }
+
+            return response()->json($partidos, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Hubo un error al obtener los partidos: ' . $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)

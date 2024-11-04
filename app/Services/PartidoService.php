@@ -9,7 +9,16 @@ class PartidoService
 {
     public function listarPartidos()
     {
-        return Partido::with(['equipoLocal', 'equipoVisitante', 'resultado'])->get();
+        // Obtener los partidos con los equipos relacionados
+        return Partido::with(['equipoLocal', 'equipoVisitante'])->get();
+    }
+
+    public function listarPartidosPorJornada($jornada)
+    {
+        // Obtener los partidos de la jornada especificada con los equipos relacionados
+        return Partido::with(['equipoLocal', 'equipoVisitante'])
+            ->where('jornada', $jornada)
+            ->get();
     }
 
     public function crearPartido(Request $request)
@@ -24,7 +33,7 @@ class PartidoService
 
     public function verPartido(Partido $partido)
     {
-        return $partido->load(['equipoLocal', 'equipoVisitante', 'resultado']);
+        return $partido->load(['equipoLocal', 'equipoVisitante']);
     }
 
     public function actualizarPartido(Request $request, Partido $partido)
@@ -36,7 +45,7 @@ class PartidoService
             'hora' => $request->hora,
         ]);
 
-        return $partido->load(['equipoLocal', 'equipoVisitante', 'resultado']);
+        return $partido->load(['equipoLocal', 'equipoVisitante']);
     }
 
     public function eliminarPartido(Partido $partido)
