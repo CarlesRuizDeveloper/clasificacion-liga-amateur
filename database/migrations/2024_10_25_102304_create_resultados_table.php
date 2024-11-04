@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('resultados', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('equipo_local_id')->constrained('equipos')->onDelete('cascade');
-            $table->foreignId('equipo_visitante_id')->constrained('equipos')->onDelete('cascade');
+            $table->foreignId('partido_id')->constrained('partidos')->onDelete('cascade');
             $table->integer('goles_local')->nullable();
             $table->integer('goles_visitante')->nullable();
-            $table->date('fecha');
-            $table->time('hora');
             $table->timestamps();
         });
+        
     }
 
     /**
