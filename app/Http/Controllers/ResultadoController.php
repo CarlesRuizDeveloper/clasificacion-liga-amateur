@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partido;
 use App\Models\Resultado;
 use App\Services\ResultadoService;
 use Illuminate\Http\Request;
@@ -17,48 +18,25 @@ class ResultadoController extends Controller
 
     public function index()
     {
-        $resultados = $this->resultadoService->listarResultados();
+        $resultados = Partido::with(['equipoLocal', 'equipoVisitante', 'resultado'])->get();
         return response()->json($resultados);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'equipo_local_id' => 'required|exists:equipos,id',
-            'equipo_visitante_id' => 'required|exists:equipos,id',
+            'partido_id' => 'required|exists:partidos,id',
             'goles_local' => 'nullable|integer|min:0',
-            'goles_visitante' => 'nullable|integer|min:0',
-            'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i'
+            'goles_visitante' => 'nullable|integer|min:0'
         ]);
 
         $resultado = $this->resultadoService->crearResultado($request);
         return response()->json($resultado, 201);
     }
 
-    public function show(Resultado $resultado)
+    public function show($jornada)
     {
-        return response()->json($this->resultadoService->verResultado($resultado));
-    }
-
-    public function update(Request $request, Resultado $resultado)
-    {
-        $request->validate([
-            'equipo_local_id' => 'required|exists:equipos,id',
-            'equipo_visitante_id' => 'required|exists:equipos,id',
-            'goles_local' => 'nullable|integer|min:0',
-            'goles_visitante' => 'nullable|integer|min:0',
-            'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i'
-        ]);
-
-        $resultado = $this->resultadoService->actualizarResultado($request, $resultado);
-        return response()->json($resultado);
-    }
-
-    public function destroy(Resultado $resultado)
-    {
-        $this->resultadoService->eliminarResultado($resultado);
-        return response()->json(null, 204);
+        $partidos = Partido::where('jornada', $jornada)->with(['equipoLocal', 'equipoVisitante', 'resultado'])->get();
+        return response()->json($partidos);
     }
 }
