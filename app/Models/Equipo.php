@@ -12,6 +12,8 @@ class Equipo extends Model
 
     protected $fillable = ['nombre', 'escudo'];
 
+    protected $appends = ['escudo_url'];
+
     public function resultadosLocales()
     {
         return $this->hasMany(Resultado::class, 'equipo_local_id');

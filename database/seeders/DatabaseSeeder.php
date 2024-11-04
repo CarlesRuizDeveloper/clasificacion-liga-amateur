@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
     {
         // Registrar el seeder para los equipos
         $this->call(EquiposTableSeeder::class);
+        $this->call(PartidosTableSeeder::class);
     }
 }
