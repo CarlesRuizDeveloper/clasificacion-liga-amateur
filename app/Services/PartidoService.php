@@ -9,13 +9,11 @@ class PartidoService
 {
     public function listarPartidos()
     {
-        // Obtener los partidos con los equipos relacionados
         return Partido::with(['equipoLocal', 'equipoVisitante'])->get();
     }
 
     public function listarPartidosPorJornada($jornada)
     {
-        // Obtener los partidos de la jornada especificada con los equipos relacionados
         return Partido::with(['equipoLocal', 'equipoVisitante'])
             ->where('jornada', $jornada)
             ->get();
