@@ -21,6 +21,9 @@ Route::get('equipos', [EquipoController::class, 'index']);
 Route::get('equipos/{equipo}', [EquipoController::class, 'show']);
 Route::get('partidos', [PartidoController::class, 'index']);
 Route::get('partidos/{partido}', [PartidoController::class, 'show']);
+Route::get('clasificacion/jornada/{jornada}', [PartidoController::class, 'clasificacionPorJornada']);
+Route::get('clasificacion/ultima', [PartidoController::class, 'clasificacionUltimaJornada']);
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

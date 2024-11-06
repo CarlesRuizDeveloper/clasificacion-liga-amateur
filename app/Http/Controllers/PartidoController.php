@@ -68,4 +68,24 @@ class PartidoController extends Controller
         $this->partidoService->eliminarPartido($partido);
         return response()->json(null, 204);
     }
+
+    public function clasificacionPorJornada($jornada)
+    {
+        try {
+            $clasificacion = $this->partidoService->obtenerClasificacionPorJornada($jornada);
+            return response()->json($clasificacion, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener la clasificación: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function clasificacionUltimaJornada()
+    {
+        try {
+            $clasificacion = $this->partidoService->obtenerClasificacionUltimaJornada();
+            return response()->json($clasificacion, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener la clasificación: ' . $e->getMessage()], 500);
+        }
+    }
 }
