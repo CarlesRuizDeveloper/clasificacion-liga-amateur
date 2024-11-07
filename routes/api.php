@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\ResultadoController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::get('equipos', [EquipoController::class, 'index']);
 Route::get('equipos/{equipo}', [EquipoController::class, 'show']);
 Route::get('resultados', [ResultadoController::class, 'index']); 
 Route::get('resultados/{resultado}', [ResultadoController::class, 'show']); 
+Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
