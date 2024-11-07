@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resultados', function (Blueprint $table) {
+        Schema::create('partidos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('equipo_local_id')->constrained('equipos')->onDelete('cascade');
             $table->foreignId('equipo_visitante_id')->constrained('equipos')->onDelete('cascade');
-            $table->integer('goles_local')->nullable();
+            $table->integer('jornada'); 
+            $table->integer('goles_local')->nullable(); 
             $table->integer('goles_visitante')->nullable();
             $table->date('fecha');
-            $table->time('hora');
+            $table->time('hora')->nullable();
+            $table->string('estado')->default('Pendiente');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resultados');
+        Schema::dropIfExists('partidos');
     }
 };
