@@ -3,7 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\ResultadoController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PartidoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +22,14 @@ use App\Http\Controllers\PartidoController;
 
 Route::get('equipos', [EquipoController::class, 'index']);
 Route::get('equipos/{equipo}', [EquipoController::class, 'show']);
+Route::get('resultados', [ResultadoController::class, 'index']); 
+Route::get('resultados/{resultado}', [ResultadoController::class, 'show']); 
+Route::post('login', [AuthController::class, 'login']);
 Route::get('partidos', [PartidoController::class, 'index']);
 Route::get('partidos/{partido}', [PartidoController::class, 'show']);
 Route::get('clasificacion/jornada/{jornada}', [PartidoController::class, 'clasificacionPorJornada']);
 Route::get('clasificacion/ultima', [PartidoController::class, 'clasificacionUltimaJornada']);
+
 
 
 

@@ -12,8 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Registrar el seeder para los equipos
+
+        $this->call(AdminUserSeeder::class);
         $this->call(EquiposTableSeeder::class);
         $this->call(PartidosTableSeeder::class);
+
     }
 }
