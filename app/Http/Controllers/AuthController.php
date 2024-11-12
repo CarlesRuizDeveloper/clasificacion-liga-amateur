@@ -28,4 +28,16 @@ class AuthController extends Controller
             'message' => 'Credenciales incorrectas',
         ], 401);
     }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            $user->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logout successful'], 200);
+        } else {
+            return response()->json(['message' => 'No active session found'], 400);
+        }
+    }
+    
 }
