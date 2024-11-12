@@ -9,8 +9,16 @@ class Partido extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['equipo_local_id', 'equipo_visitante_id', 'fecha', 'hora', 'jornada', 'estado'];
-
+    protected $fillable = [
+        'equipo_local_id', 
+        'equipo_visitante_id', 
+        'fecha', 
+        'hora', 
+        'jornada', 
+        'goles_local',  
+        'goles_visitante',  
+        'estado'
+    ];
     public function equipoLocal()
     {
         return $this->belongsTo(Equipo::class, 'equipo_local_id');
