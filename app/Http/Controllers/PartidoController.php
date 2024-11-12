@@ -57,11 +57,14 @@ class PartidoController extends Controller
             'equipo_visitante_id' => 'required|exists:equipos,id',
             'fecha' => 'required|date',
             'hora' => 'required|date_format:H:i',
+            'goles_local' => 'nullable|integer',  
+            'goles_visitante' => 'nullable|integer',
         ]);
-
+    
         $partidoActualizado = $this->partidoService->actualizarPartido($request, $partido);
         return response()->json($partidoActualizado);
     }
+    
 
     public function destroy(Partido $partido)
     {
