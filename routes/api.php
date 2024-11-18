@@ -25,6 +25,8 @@ Route::get('partidos', [PartidoController::class, 'index']);
 Route::get('partidos/{partido}', [PartidoController::class, 'show']);
 Route::get('clasificacion/jornada/{jornada}', [PartidoController::class, 'clasificacionPorJornada']);
 Route::get('clasificacion/ultima', [PartidoController::class, 'clasificacionUltimaJornada']);
+Route::get('ultima-jornada', [PartidoController::class, 'obtenerUltimaJornada']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 

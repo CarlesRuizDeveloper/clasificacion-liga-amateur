@@ -16,35 +16,6 @@
     ],
     "paths": {
         "/equipos": {},
-        "/api/resultados": {
-            "get": {
-                "tags": [
-                    "Resultados"
-                ],
-                "summary": "Listar todos los resultados",
-                "operationId": "listarResultados",
-                "responses": {
-                    "200": {
-                        "description": "Operación exitosa",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Resultado"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/equipos": {
             "get": {
                 "tags": [
@@ -299,10 +270,6 @@
         {
             "name": "Equipos",
             "description": "Equipos"
-        },
-        {
-            "name": "Resultados",
-            "description": "Resultados"
         }
     ]
 }
