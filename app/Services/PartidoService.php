@@ -42,14 +42,16 @@ class PartidoService
             'equipo_visitante_id' => $request->equipo_visitante_id,
             'fecha' => $request->fecha,
             'hora' => $request->hora,
-            'goles_local' => $request->goles_local, 
+            'goles_local' => $request->goles_local,
             'goles_visitante' => $request->goles_visitante,
         ]);
-    
+
         return $partido->load(['equipoLocal', 'equipoVisitante']);
     }
-    
-    
+
+
+
+
 
     public function eliminarPartido(Partido $partido)
     {
@@ -168,5 +170,14 @@ class PartidoService
             ->max('jornada');
 
         return $this->obtenerClasificacionPorJornada($ultimaJornada);
+    }
+
+    public function obtenerUltimaJornadaConResultados()
+    {
+        $ultimaJornada = Partido::whereNotNull('goles_local')
+            ->whereNotNull('goles_visitante')
+            ->max('jornada');
+
+        return $ultimaJornada ?? 1;
     }
 }
