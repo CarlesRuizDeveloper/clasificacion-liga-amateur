@@ -16,7 +16,9 @@ class Partido extends Model
         'hora', 
         'jornada', 
         'goles_local',
-        'goles_visitante',  
+        'goles_visitante',
+        'pts_fed_local',
+        'pts_fed_visitante',  
         'estado'
     ];
 
