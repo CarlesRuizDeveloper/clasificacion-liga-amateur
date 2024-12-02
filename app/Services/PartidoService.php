@@ -16,7 +16,7 @@ class PartidoService
     public function listarPartidosPorJornada($jornada)
     {
         return Partido::with(['equipoLocal', 'equipoVisitante'])
-            ->where('jornada', $jornada)
+            ->where ('jornada', $jornada)
             ->get();
     }
 
@@ -37,21 +37,38 @@ class PartidoService
 
     public function actualizarPartido(Request $request, Partido $partido)
     {
-        $partido->update([
-            'equipo_local_id' => $request->equipo_local_id,
-            'equipo_visitante_id' => $request->equipo_visitante_id,
-            'fecha' => $request->fecha,
-            'hora' => $request->hora,
-            'goles_local' => $request->goles_local,
-            'goles_visitante' => $request->goles_visitante,
-        ]);
-
+        $partido->update($request->only([
+            'equipo_local_id',
+            'equipo_visitante_id',
+            'fecha',
+            'hora',
+            'goles_local',
+            'goles_visitante',
+            'pts_fed_local',  
+            'pts_fed_visitante'
+        ]));
+    
+        $partido->pts_fed_local = $request->input('pts_fed_local');
+        $partido->pts_fed_visitante = $request->input('pts_fed_visitante');
+    
+        $partido->pts_local = $this->calcularPuntosNormales($partido->goles_local, $partido->goles_visitante);
+        $partido->pts_visitante = $this->calcularPuntosNormales($partido->goles_visitante, $partido->goles_local);
+    
+        $partido->save();
+    
         return $partido->load(['equipoLocal', 'equipoVisitante']);
     }
-
-
-
-
+    
+    private function calcularPuntosNormales($golesPropios, $golesOponentes)
+    {
+        if ($golesPropios > $golesOponentes) {
+            return 3;
+        } elseif ($golesPropios < $golesOponentes) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 
     public function eliminarPartido(Partido $partido)
     {
@@ -85,7 +102,8 @@ class PartidoService
                 'gf' => 0,
                 'gc' => 0,
                 'dg' => 0,
-                'pts' => 0
+                'pts' => 0,
+                'pts_fed' => 0  
             ];
         }
 
@@ -117,7 +135,6 @@ class PartidoService
         $this->actualizarEstadisticasPartido($local, $visitante, $partido);
     }
 
-
     private function actualizarEstadisticasPartido(&$local, &$visitante, $partido)
     {
         $local['pj']++;
@@ -127,20 +144,10 @@ class PartidoService
         $visitante['gf'] += $partido->goles_visitante;
         $visitante['gc'] += $partido->goles_local;
 
-        if ($partido->goles_local > $partido->goles_visitante) {
-            $local['pg']++;
-            $visitante['pp']++;
-            $local['pts'] += 3;
-        } elseif ($partido->goles_local < $partido->goles_visitante) {
-            $visitante['pg']++;
-            $local['pp']++;
-            $visitante['pts'] += 3;
-        } else {
-            $local['pe']++;
-            $visitante['pe']++;
-            $local['pts'] += 1;
-            $visitante['pts'] += 1;
-        }
+        $local['pts'] += $this->calcularPuntosNormales($partido->goles_local, $partido->goles_visitante);
+        $visitante['pts'] += $this->calcularPuntosNormales($partido->goles_visitante, $partido->goles_local);
+        $local['pts_fed'] += $partido->pts_fed_local;
+        $visitante['pts_fed'] += $partido->pts_fed_visitante;
 
         $this->actualizarDiferenciaGoles($local);
         $this->actualizarDiferenciaGoles($visitante);
@@ -155,11 +162,14 @@ class PartidoService
     {
         usort($clasificacion, function ($a, $b) {
             if ($a['pts'] === $b['pts']) {
-                return $b['dg'] - $a['dg'];
+                if ($a['pts_fed'] === $b['pts_fed']) {
+                    return $b['dg'] - $a['dg'];
+                }
+                return $b['pts_fed'] - $a['pts_fed'];
             }
             return $b['pts'] - $a['pts'];
         });
-
+    
         return $clasificacion;
     }
 

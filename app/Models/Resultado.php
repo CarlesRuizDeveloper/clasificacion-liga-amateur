@@ -12,7 +12,9 @@ class Resultado extends Model
     protected $fillable = [
         'partido_id',
         'goles_local',
-        'goles_visitante'
+        'goles_visitante',
+        'pts_fed_local',
+        'pts_fed_visitante'
     ];
 
     public function partido()

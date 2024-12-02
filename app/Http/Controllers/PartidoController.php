@@ -58,10 +58,12 @@ class PartidoController extends Controller
         $request->validate([
             'equipo_local_id' => 'required|exists:equipos,id',
             'equipo_visitante_id' => 'required|exists:equipos,id',
-            'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i',
+            'fecha' => 'nullable|date',
+            'hora' => 'nullable|date_format:H:i',
             'goles_local' => 'nullable|integer',
             'goles_visitante' => 'nullable|integer',
+            'pts_fed_local' => 'nullable|integer',
+            'pts_fed_visitante'  => 'nullable|integer'
         ]);
 
         Log::info('Validation passed');
@@ -75,7 +77,6 @@ class PartidoController extends Controller
             return response()->json(['error' => 'Error updating partido: ' . $e->getMessage()], 500);
         }
     }
-
 
     public function destroy(Partido $partido)
     {

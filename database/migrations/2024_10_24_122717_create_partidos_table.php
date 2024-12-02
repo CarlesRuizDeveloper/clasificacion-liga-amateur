@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('jornada'); 
             $table->integer('goles_local')->nullable(); 
             $table->integer('goles_visitante')->nullable();
+            $table->integer('pts_fed_local')->nullable();
+            $table->integer('pts_fed_visitante')->nullable();
             $table->date('fecha');
             $table->time('hora')->nullable();
             $table->string('estado')->default('Pendiente');
