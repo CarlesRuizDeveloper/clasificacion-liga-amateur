@@ -139,19 +139,30 @@ class PartidoService
     {
         $local['pj']++;
         $visitante['pj']++;
-        $local['gf'] += $partido->goles_local;
-        $local['gc'] += $partido->goles_visitante;
-        $visitante['gf'] += $partido->goles_visitante;
-        $visitante['gc'] += $partido->goles_local;
-
-        $local['pts'] += $this->calcularPuntosNormales($partido->goles_local, $partido->goles_visitante);
-        $visitante['pts'] += $this->calcularPuntosNormales($partido->goles_visitante, $partido->goles_local);
-        $local['pts_fed'] += $partido->pts_fed_local;
-        $visitante['pts_fed'] += $partido->pts_fed_visitante;
-
+    
+        $local['gf'] += $partido->goles_local ?? 0;
+        $local['gc'] += $partido->goles_visitante ?? 0;
+        $visitante['gf'] += $partido->goles_visitante ?? 0;
+        $visitante['gc'] += $partido->goles_local ?? 0;
+    
+        $local['pts'] += $this->calcularPuntosNormales($partido->pts_fed_local, $partido->pts_fed_visitante);
+        $visitante['pts'] += $this->calcularPuntosNormales($partido->pts_fed_visitante, $partido->pts_fed_local);
+    
+        if ($partido->pts_fed_local > $partido->pts_fed_visitante) {
+            $local['pg']++; // Incrementar partidos ganados para local
+            $visitante['pp']++; // Incrementar partidos perdidos para visitante
+        } elseif ($partido->pts_fed_local < $partido->pts_fed_visitante) {
+            $local['pp']++; // Incrementar partidos perdidos para local
+            $visitante['pg']++; // Incrementar partidos ganados para visitante
+        } else {
+            $local['pe']++; // Incrementar partidos empatados para ambos
+            $visitante['pe']++;
+        }
+    
         $this->actualizarDiferenciaGoles($local);
         $this->actualizarDiferenciaGoles($visitante);
     }
+    
 
     private function actualizarDiferenciaGoles(&$equipo)
     {
