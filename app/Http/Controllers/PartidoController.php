@@ -93,6 +93,7 @@ class PartidoController extends Controller
             return response()->json(['error' => 'Error al obtener la clasificación: ' . $e->getMessage()], 500);
         }
     }
+    
 
     public function clasificacionUltimaJornada()
     {
@@ -103,6 +104,7 @@ class PartidoController extends Controller
             return response()->json(['error' => 'Error al obtener la clasificación: ' . $e->getMessage()], 500);
         }
     }
+    
 
     public function obtenerUltimaJornada()
     {
