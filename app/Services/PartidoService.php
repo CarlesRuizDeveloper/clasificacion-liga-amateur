@@ -149,13 +149,13 @@ class PartidoService
         $visitante['pts'] += $this->calcularPuntosNormales($partido->pts_fed_visitante, $partido->pts_fed_local);
     
         if ($partido->pts_fed_local > $partido->pts_fed_visitante) {
-            $local['pg']++; // Incrementar partidos ganados para local
-            $visitante['pp']++; // Incrementar partidos perdidos para visitante
+            $local['pg']++; 
+            $visitante['pp']++; 
         } elseif ($partido->pts_fed_local < $partido->pts_fed_visitante) {
-            $local['pp']++; // Incrementar partidos perdidos para local
-            $visitante['pg']++; // Incrementar partidos ganados para visitante
+            $local['pp']++;
+            $visitante['pg']++; 
         } else {
-            $local['pe']++; // Incrementar partidos empatados para ambos
+            $local['pe']++; 
             $visitante['pe']++;
         }
     
